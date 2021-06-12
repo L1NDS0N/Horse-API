@@ -8,14 +8,20 @@ uses Horse, Horse.OctetStream, System.Classes, System.SysUtils, Horse.Logger, Ho
 
 var
   App: Thorse;
-  LoggerConfig: THorseLoggerLogFileConfig;
-  LConsoleConfig: THorseLoggerConsoleConfig;
+//  LoggerConfig: THorseLoggerLogFileConfig;
+  LConsoleConfig: THorseLoggerLogFileConfig;
 
 begin
 Thorse.Use(OctetStream);
 
+// Console logger
 THorseLoggerManager.RegisterProvider(THorseLoggerProviderLogFile.New());
 Thorse.Use(THorseLoggerManager.HorseCallback());
+
+// Console Logger
+//LConsoleConfig := THorseLoggerLogFileConfig.New.SetLogFormat('${request_clientip} [${time}] ${response_status}');
+//LConsoleConfig := THorseLoggerConsoleConfig.New.SetLogFormat('${request_clientip} [${time}] ${response_status}');
+//THorseLoggerManager.RegisterProvider(THorseLoggerProviderLogFile.New(LConsoleConfig));
 
 Thorse.Get('/arquivos',
     procedure(Req: THorseRequest; Res: THorseResponse; Next: TProc)

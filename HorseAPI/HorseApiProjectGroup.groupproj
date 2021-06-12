@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{FE4E28FE-BD2D-4B29-915D-F9580E883526}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="frontend\frontend.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="backend\HorseAPIProj.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="frontend">
+        <MSBuild Projects="frontend\frontend.dproj"/>
+    </Target>
+    <Target Name="frontend:Clean">
+        <MSBuild Projects="frontend\frontend.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="frontend:Make">
+        <MSBuild Projects="frontend\frontend.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="HorseAPIProj">
+        <MSBuild Projects="backend\HorseAPIProj.dproj"/>
+    </Target>
+    <Target Name="HorseAPIProj:Clean">
+        <MSBuild Projects="backend\HorseAPIProj.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="HorseAPIProj:Make">
+        <MSBuild Projects="backend\HorseAPIProj.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="frontend;HorseAPIProj"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="frontend:Clean;HorseAPIProj:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="frontend:Make;HorseAPIProj:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
