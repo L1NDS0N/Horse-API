@@ -9,6 +9,7 @@ object FrameCliente: TFrameCliente
     Size.Height = 75.000000000000000000
     Size.PlatformDefault = False
     Stroke.Kind = None
+    OnDblClick = retContentDblClick
     object lblEmail: TLabel
       Anchors = [akLeft, akTop, akRight]
       StyledSettings = [Family]
