@@ -20,6 +20,22 @@ procedure DoList(Req: THorseRequest; Res: THorseResponse; Next: TProc);
   end;
   end;
 
+procedure DoGet(Req: THorseRequest; Res: THorseResponse; Next: TProc);
+  var
+    LId: string;
+    LService: TServiceCLiente;
+  begin
+  LService := TServiceCLiente.Create(nil);
+  try
+    LId := Req.Params.Items['id'];
+    if LService.GetById(LId).IsEmpty then
+      raise EHorseException.Create(THTTPStatus.NotFound, 'Not Found');
+    Res.Send(LService.qryCadastro.ToJSONObject());
+  finally
+    LService.Free;
+  end;
+  end;
+
 procedure DoPost(Req: THorseRequest; Res: THorseResponse; Next: TProc);
   var
     LService: TServiceCLiente;
@@ -71,6 +87,7 @@ procedure DoDelete(Req: THorseRequest; Res: THorseResponse; Next: TProc);
 procedure Registry;
   begin
   THorse.Get('/clientes', DoList);
+  THorse.Get('/clientes/:id', DoGet);
   THorse.Post('/clientes', DoPost);
   THorse.Put('/clientes/:id', DoUpdate);
   THorse.Delete('/clientes/:id', DoDelete);

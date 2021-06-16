@@ -30,6 +30,7 @@ type
       function Append(const AJson: TJSONObject): Boolean;
       procedure Delete(AId: integer);
       function Update(const AJson: TJSONObject; AId: integer): Boolean;
+      function GetById(const AId: string): TFDQuery;
   end;
 
 implementation
@@ -68,6 +69,14 @@ function TServiceCliente.Update(const AJson: TJSONObject; AId: integer): Boolean
   qryCadastro.Open();
   qryCadastro.MergeFromJSONObject(AJson, False);
   Result := qryCadastro.ApplyUpdates(0) = 0;
+  end;
+
+function TServiceCliente.GetById(const AId: string): TFDQuery;
+  begin
+  qryCadastro.SQL.Add('where id = :id');
+  qryCadastro.ParamByName('id').AsInteger := AId.ToInteger;
+  qryCadastro.Open();
+  Result := qryCadastro;
   end;
 
 end.
